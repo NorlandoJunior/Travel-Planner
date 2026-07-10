@@ -14,6 +14,10 @@ The application was developed using a structured architecture with models, servi
 
 
 
+## Software Vercel Deploy
+
+https://travel-planner-tr4r.vercel.app/
+
 ## Development Environment
 
 The tools I used to develop this software were:
@@ -28,22 +32,6 @@ The tools I used to develop this software were:
 The programming language used was:
 
 - TypeScript
-
-## Features
-
-The application includes:
-
-- Create new trips
-- Display saved trips
-- Edit existing trips
-- Delete trips
-- Manage trip status:
-  - Planned
-  - Ongoing
-  - Completed
-  - Cancelled
-- Store trip information using Local Storage
-- Responsive user interface
 
 
 ## Useful Websites
