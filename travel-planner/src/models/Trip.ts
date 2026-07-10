@@ -1,6 +1,10 @@
 import type { ITrip } from "./ITrip";
 import { TripStatus } from "./TripStatus";
 
+/**
+ * Represents a travel plan.
+ */
+
 export class Trip implements ITrip {
     constructor(
         public id: number,
