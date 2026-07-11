@@ -12,7 +12,7 @@ The application was developed using a structured architecture with models, servi
 
 The project also demonstrates TypeScript features including classes, lists, asynchronous functions, recursion, console output, and exception handling.
 
-[Software Demo Video](https://youtu.be/PRtC3qCGL90)
+[Software Demo Video](https://www.youtube.com/watch?v=FgbfTUFqIDI)
 
 [Software Vercel Deploy](https://travel-planner-tr4r.vercel.app/)
 
