@@ -13,25 +13,30 @@ export class TripController {
      */
     private tripService: TripService;
 
+
     /**
      * Handles trip rendering.
      */
     private renderView: RenderView;
+
 
     /**
      * Handles form interactions.
      */
     private formView: FormView;
 
+
     /**
      * Application container.
      */
     private app: HTMLDivElement;
 
+
     /**
      * Stores the id of the trip being edited.
      */
     private editingTripId: number | null = null;
+
 
 
     /**
@@ -63,16 +68,31 @@ export class TripController {
     }
 
 
+
     /**
      * Starts the application.
      */
     public initialize(): void {
+
+
+        console.log(
+            "Travel Planner application started."
+        );
+
+
+        console.log(
+            "Current trips:",
+            this.tripService.getTrips()
+        );
+
 
         this.render();
 
         this.setupEvents();
 
     }
+
+
 
 
     /**
@@ -108,15 +128,14 @@ export class TripController {
     }
 
 
+
+
     /**
      * Configures application events.
      */
     private setupEvents(): void {
 
 
-        /*
-         * Form submit event.
-         */
         this.formView.bindSubmit(() => {
 
             this.saveTrip();
@@ -124,13 +143,10 @@ export class TripController {
         });
 
 
-        /*
-         * Button events.
-         */
         this.setupButtonEvents();
 
-
     }
+
 
 
 
@@ -140,73 +156,136 @@ export class TripController {
     private saveTrip(): void {
 
 
-        const data = this.formView.getFormData();
+        try {
+
+
+            const data = this.formView.getFormData();
 
 
 
-        if (this.editingTripId !== null) {
+            if (!data.destination.trim()) {
 
 
-            const updatedTrip = new Trip(
+                throw new Error(
+                    "Destination cannot be empty."
+                );
 
-                this.editingTripId,
+            }
 
-                data.destination,
 
-                data.startDate,
 
-                data.endDate,
+            if (data.budget < 0) {
 
-                data.budget,
 
-                data.notes,
+                throw new Error(
+                    "Budget cannot be negative."
+                );
 
-                data.status
+            }
 
+
+
+
+            if (this.editingTripId !== null) {
+
+
+                const updatedTrip = new Trip(
+
+                    this.editingTripId,
+
+                    data.destination,
+
+                    data.startDate,
+
+                    data.endDate,
+
+                    data.budget,
+
+                    data.notes,
+
+                    data.status
+
+                );
+
+
+                this.tripService.updateTrip(
+                    updatedTrip
+                );
+
+
+                this.editingTripId = null;
+
+
+            } else {
+
+
+
+                const newTrip = new Trip(
+
+                    this.tripService.generateId(),
+
+                    data.destination,
+
+                    data.startDate,
+
+                    data.endDate,
+
+                    data.budget,
+
+                    data.notes,
+
+                    data.status
+
+                );
+
+
+                this.tripService.addTrip(
+                    newTrip
+                );
+
+
+            }
+
+
+
+            console.log(
+                "Trip saved successfully."
             );
 
 
-            this.tripService.updateTrip(updatedTrip);
+            this.refresh();
 
 
-            this.editingTripId = null;
+            this.formView.clearForm();
 
 
-        } else {
+        }
+        catch(error) {
 
 
-            const newTrip = new Trip(
-
-                this.tripService.generateId(),
-
-                data.destination,
-
-                data.startDate,
-
-                data.endDate,
-
-                data.budget,
-
-                data.notes,
-
-                data.status
-
+            console.error(
+                "Error saving trip:",
+                error
             );
 
 
-            this.tripService.addTrip(newTrip);
+            alert(
+
+                error instanceof Error
+
+                    ? error.message
+
+                    : "Unknown error occurred."
+
+            );
+
 
         }
 
 
-
-        this.refresh();
-
-
-        this.formView.clearForm();
-
-
     }
+
+
 
 
 
@@ -218,11 +297,12 @@ export class TripController {
 
         this.render();
 
-
         this.setupEvents();
 
 
     }
+
+
 
 
 
@@ -252,6 +332,7 @@ export class TripController {
             button.addEventListener(
                 "click",
                 () => {
+
 
                     const id = Number(
                         button.dataset.id
@@ -296,6 +377,8 @@ export class TripController {
 
 
 
+
+
     /**
      * Edits an existing trip.
      * @param id Trip id.
@@ -322,9 +405,6 @@ export class TripController {
 
 
 
-        /*
-         * Scrolls to the form when editing.
-         */
         window.scrollTo({
 
             top: 0,
@@ -335,6 +415,8 @@ export class TripController {
 
 
     }
+
+
 
 
 
@@ -363,7 +445,49 @@ export class TripController {
 
 
 
+        console.log(
+            "Trip deleted successfully."
+        );
+
+
         this.refresh();
+
+
+    }
+
+
+
+
+
+    /**
+     * Counts trips using recursion.
+     * This function demonstrates recursive logic.
+     *
+     * @param index Current position.
+     * @returns Number of trips.
+     */
+    public countTripsRecursively(
+        index: number = 0
+    ): number {
+
+
+        const trips =
+            this.tripService.getTrips();
+
+
+
+        if (index >= trips.length) {
+
+            return 0;
+
+        }
+
+
+
+        return 1 +
+            this.countTripsRecursively(
+                index + 1
+            );
 
 
     }

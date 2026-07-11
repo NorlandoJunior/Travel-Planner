@@ -12,10 +12,13 @@ export class TripService {
      */
     private storageService: StorageService;
 
+
     /**
      * Trip collection.
      */
     private trips: Trip[];
+
+
 
     /**
      * Creates a new TripService.
@@ -26,10 +29,13 @@ export class TripService {
 
         this.trips = this.storageService.loadTrips();
 
+
         // Load sample data if LocalStorage is empty
         if (this.trips.length === 0) {
 
+
             this.trips = [
+
 
                 new Trip(
                     1,
@@ -41,6 +47,8 @@ export class TripService {
                     TripStatus.Planned
                 ),
 
+
+
                 new Trip(
                     2,
                     "Tokyo",
@@ -50,6 +58,8 @@ export class TripService {
                     "Visit Akihabara and Mount Fuji.",
                     TripStatus.Ongoing
                 ),
+
+
 
                 new Trip(
                     3,
@@ -63,20 +73,54 @@ export class TripService {
 
             ];
 
+
             this.save();
+
 
         }
 
     }
+
+
+
 
     /**
      * Returns all trips.
      */
     getTrips(): Trip[] {
 
+
         return this.trips;
 
+
     }
+
+
+
+
+
+    /**
+     * Loads trips asynchronously.
+     * Demonstrates async/await functionality.
+     *
+     * @returns Promise containing trips.
+     */
+    public async loadTripsAsync(): Promise<Trip[]> {
+
+
+        this.trips =
+            await this.storageService.loadTripsAsync();
+
+
+
+        return this.trips;
+
+
+    }
+
+
+
+
 
     /**
      * Returns one trip.
@@ -84,11 +128,19 @@ export class TripService {
      */
     getTripById(id: number): Trip | undefined {
 
+
         return this.trips.find(
+
             trip => trip.id === id
+
         );
 
+
     }
+
+
+
+
 
     /**
      * Adds a new trip.
@@ -96,11 +148,18 @@ export class TripService {
      */
     addTrip(trip: Trip): void {
 
+
         this.trips.push(trip);
+
 
         this.save();
 
+
     }
+
+
+
+
 
     /**
      * Updates an existing trip.
@@ -108,19 +167,32 @@ export class TripService {
      */
     updateTrip(updatedTrip: Trip): void {
 
+
         const index = this.trips.findIndex(
+
             trip => trip.id === updatedTrip.id
+
         );
+
+
 
         if (index !== -1) {
 
+
             this.trips[index] = updatedTrip;
+
 
             this.save();
 
+
         }
 
+
     }
+
+
+
+
 
     /**
      * Deletes a trip.
@@ -128,13 +200,22 @@ export class TripService {
      */
     deleteTrip(id: number): void {
 
+
         this.trips = this.trips.filter(
+
             trip => trip.id !== id
+
         );
+
 
         this.save();
 
+
     }
+
+
+
+
 
     /**
      * Updates only the trip status.
@@ -142,48 +223,98 @@ export class TripService {
      * @param status New status.
      */
     changeStatus(
+
         id: number,
+
         status: TripStatus
+
     ): void {
+
 
         const trip = this.getTripById(id);
 
+
+
         if (!trip) return;
+
+
 
         trip.status = status;
 
+
+
         this.save();
 
+
     }
+
+
+
+
 
     /**
      * Returns the next available id.
      */
     generateId(): number {
 
+
         if (this.trips.length === 0) {
+
 
             return 1;
 
+
         }
 
+
+
         return Math.max(
+
             ...this.trips.map(
+
                 trip => trip.id
+
             )
+
         ) + 1;
 
+
     }
+
+
+
+
 
     /**
      * Saves the current list.
      */
     private save(): void {
 
+
         this.storageService.saveTrips(
+
             this.trips
+
         );
 
+
     }
+
+    /**
+     * Saves trips asynchronously.
+     * Demonstrates async/await functionality.
+     */
+    public async saveAsync(): Promise<void> {
+
+
+        await this.storageService.saveTripsAsync(
+
+            this.trips
+
+        );
+
+
+    }
+
 
 }

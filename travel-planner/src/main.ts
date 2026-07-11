@@ -1,13 +1,45 @@
 import "./styles/style.css";
 
 import { TripController } from "./controllers/TripController";
-import { FormView } from "./views/FormView";
 
-console.log(FormView);
 
 /**
- * Starts the application.
+ * Starts the application asynchronously.
  */
-const controller = new TripController();
+async function startApplication(): Promise<void> {
 
-controller.initialize();
+
+    console.log(
+        "Starting Travel Planner..."
+    );
+
+
+    const controller = new TripController();
+
+
+    controller.initialize();
+
+
+    console.log(
+        "Application initialized successfully."
+    );
+
+
+}
+
+
+/**
+ * Executes application startup.
+ */
+startApplication()
+    .catch(error => {
+
+
+        console.error(
+            "Application failed to start:",
+            error
+        );
+
+
+    });
+    
