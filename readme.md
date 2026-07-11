@@ -10,7 +10,9 @@ The purpose of creating this software was to practice TypeScript programming, ob
 
 The application was developed using a structured architecture with models, services, controllers, and views to separate responsibilities and create cleaner, more maintainable code.
 
-[Software Demo Video](https://youtu.be/pnN1QloJuGI)
+The project also demonstrates TypeScript features including classes, lists, asynchronous functions, recursion, console output, and exception handling.
+
+[Software Demo Video](https://youtu.be/PRtC3qCGL90)
 
 [Software Vercel Deploy](https://travel-planner-tr4r.vercel.app/)
 
